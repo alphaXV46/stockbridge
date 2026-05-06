@@ -165,3 +165,4 @@ Hasilnya:
 
 StockBridge bukan sekadar aplikasi, tetapi sistem manajemen gudang yang efisien dan terstruktur.
 
+<img width="1199" height="782" alt="erd stockbridge drawio" src="https://github.com/user-attachments/assets/c462efd1-09ab-453e-ac96-c35bd0d9cda7" />
