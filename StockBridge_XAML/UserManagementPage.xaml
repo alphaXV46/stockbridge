@@ -85,7 +85,20 @@
                       CanUserAddRows="False"
                       Margin="15">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="UID" Binding="{Binding id}" Width="90">
+                    <!-- Sequential Number Column -->
+                    <DataGridTextColumn Header="NO" Binding="{Binding No}" Width="60">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Margin" Value="15,0"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="TextAlignment" Value="Center"/>
+                                <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Header="USER ID" Binding="{Binding id}" Width="90">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock">
                                 <Setter Property="Margin" Value="20,0"/>

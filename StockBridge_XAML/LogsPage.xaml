@@ -117,6 +117,19 @@
                           HeadersVisibility="Column" RowHeight="60">
 
                     <DataGrid.Columns>
+                        <!-- Sequential Number Column -->
+                        <DataGridTextColumn Header="NO" Binding="{Binding No}" Width="60">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Margin" Value="15,0"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="TextAlignment" Value="Center"/>
+                                    <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+
                         <!-- Right-aligned Date/Time -->
                         <DataGridTextColumn Header="TIME" Binding="{Binding created_at, StringFormat=\{0:HH:mm - dd MMM yyyy\}}" Width="180">
                             <DataGridTextColumn.ElementStyle>

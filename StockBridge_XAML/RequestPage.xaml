@@ -49,8 +49,21 @@
                       Margin="15" HorizontalAlignment="Stretch">
 
                 <DataGrid.Columns>
+                    <!-- Sequential Number Column -->
+                    <DataGridTextColumn Header="NO" Binding="{Binding No}" Width="60">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Margin" Value="15,0"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="TextAlignment" Value="Center"/>
+                                <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+
                     <!-- Left-aligned Reference Number (Consolas font) -->
-                    <DataGridTextColumn Header="REFERENCE" Binding="{Binding id}" Width="120">
+                    <DataGridTextColumn Header="REFERENCE ID" Binding="{Binding id}" Width="130">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock">
                                 <Setter Property="Margin" Value="15,0"/>

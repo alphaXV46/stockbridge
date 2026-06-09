@@ -72,18 +72,40 @@
                       BorderThickness="0">
                 
                 <DataGrid.Columns>
-                    <!-- Left aligned textual column -->
-                    <DataGridTemplateColumn Header="PRODUCT IDENTITY" Width="2*">
+                    <!-- Sequential Number Column -->
+                    <DataGridTextColumn Header="NO" Binding="{Binding No}" Width="60">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Margin" Value="15,0"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="TextAlignment" Value="Center"/>
+                                <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+
+                    <!-- Separate Product ID Column -->
+                    <DataGridTextColumn Header="PRODUCT ID" Binding="{Binding id}" Width="130">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Margin" Value="15,0"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+                                <Setter Property="FontFamily" Value="Consolas"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+
+                    <!-- Separate Product Name Column -->
+                    <DataGridTemplateColumn Header="PRODUCT NAME" Width="2*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" Margin="15,0">
                                     <Border Width="35" Height="35" Background="{StaticResource BrandBlueLightBrush}" CornerRadius="8">
                                         <TextBlock Text="📦" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"/>
                                     </Border>
-                                    <StackPanel VerticalAlignment="Center" Margin="12,0">
-                                        <TextBlock Text="{Binding product_name}" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"/>
-                                        <TextBlock Text="{Binding id}" Foreground="{StaticResource TextSecondaryBrush}" FontSize="10.5"/>
-                                    </StackPanel>
+                                    <TextBlock Text="{Binding product_name}" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center" Margin="12,0"/>
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>

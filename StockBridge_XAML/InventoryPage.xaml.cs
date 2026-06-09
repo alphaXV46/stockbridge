@@ -27,11 +27,30 @@ namespace StockBridge_XAML
             }
         }
 
+        private List<dynamic> AddSequentialNumbers(List<dynamic> items)
+        {
+            var result = new List<dynamic>();
+            for (int i = 0; i < items.Count; i++)
+            {
+                var item = items[i];
+                var expando = new System.Dynamic.ExpandoObject() as IDictionary<string, object>;
+                var dict = (IDictionary<string, object>)item;
+                foreach (var kvp in dict)
+                {
+                    expando[kvp.Key] = kvp.Value;
+                }
+                expando["No"] = i + 1;
+                result.Add(expando);
+            }
+            return result;
+        }
+
         public void LoadData()
         {
             try
             {
-                _fullProductList = ProductRepository.GetAllProducts();
+                var rawList = ProductRepository.GetAllProducts();
+                _fullProductList = AddSequentialNumbers(rawList);
                 dgProducts.ItemsSource = _fullProductList;
             }
             catch (Exception ex)
@@ -53,7 +72,7 @@ namespace StockBridge_XAML
                 (p.id?.ToString() ?? "").ToLower().Contains(keyword)
             ).ToList();
 
-            dgProducts.ItemsSource = filtered;
+            dgProducts.ItemsSource = AddSequentialNumbers(filtered);
         }
 
         private void BtnAddProduct_Click(object sender, RoutedEventArgs e)

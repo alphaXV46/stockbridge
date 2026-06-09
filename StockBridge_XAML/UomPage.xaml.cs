@@ -31,11 +31,33 @@ namespace StockBridge_XAML
             }
         }
 
+        private System.Collections.Generic.List<dynamic> AddSequentialNumbers(System.Collections.Generic.IEnumerable<dynamic> items)
+        {
+            var result = new System.Collections.Generic.List<dynamic>();
+            if (items == null) return result;
+            int i = 0;
+            foreach (var item in items)
+            {
+                var expando = new System.Dynamic.ExpandoObject() as System.Collections.Generic.IDictionary<string, object>;
+                var dict = (System.Collections.Generic.IDictionary<string, object>)item;
+                foreach (var kvp in dict)
+                {
+                    expando[kvp.Key] = kvp.Value;
+                }
+                expando["No"] = i + 1;
+                result.Add(expando);
+                i++;
+            }
+            return result;
+        }
+
         private void LoadData()
         {
             try
             {
-                dgUnits.ItemsSource = UnitRepository.GetAllUnits();
+                var rawUnits = UnitRepository.GetAllUnits();
+                var unitsList = AddSequentialNumbers(rawUnits);
+                dgUnits.ItemsSource = unitsList;
             }
             catch (Exception ex)
             {
