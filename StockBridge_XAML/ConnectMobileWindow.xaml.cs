@@ -20,12 +20,21 @@ namespace StockBridge_XAML
             GenerateConnectionQR();
         }
 
-        private void GenerateConnectionQR()
+        private void GenerateConnectionQR(string customUrl = null)
         {
             try
             {
-                string localIP = NetworkHelper.GetRealLocalIP();
-                string url = $"http://{localIP}:8080/";
+                string url = customUrl;
+                if (string.IsNullOrEmpty(url))
+                {
+                    string localIP = NetworkHelper.GetRealLocalIP();
+                    url = $"http://{localIP}:8080/";
+                }
+
+                if (!url.EndsWith("/"))
+                {
+                    url += "/";
+                }
 
                 // Pastikan di XAML kamu ada TextBlock dengan nama lblIPAddress
                 if (lblIPAddress != null)
@@ -58,6 +67,17 @@ namespace StockBridge_XAML
             {
                 MessageBox.Show("Gagal membuat QR: " + ex.Message);
             }
+        }
+
+        private void BtnGenerateCustom_Click(object sender, RoutedEventArgs e)
+        {
+            string url = txtCustomURL.Text.Trim();
+            if (string.IsNullOrEmpty(url))
+            {
+                MessageBox.Show("Silakan masukkan URL Ngrok HTTPS terlebih dahulu.", "Peringatan", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            GenerateConnectionQR(url);
         }
 
         // --- FIX: FUNGSI UNTUK MENUTUP JENDELA ---
