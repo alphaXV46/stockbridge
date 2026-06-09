@@ -29,7 +29,7 @@ namespace StockBridge_XAML
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
             string username = txtUser.Text.Trim();
-            string password = txtPass.Password;
+            string password = btnTogglePass.IsChecked == true ? txtPassUnmask.Text : txtPass.Password;
 
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
@@ -56,6 +56,31 @@ namespace StockBridge_XAML
             catch (Exception ex)
             {
                 MessageBox.Show($"Database connection failed: {ex.Message}", "Technical Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void BtnTogglePass_Click(object sender, RoutedEventArgs e)
+        {
+            var btn = (System.Windows.Controls.Primitives.ToggleButton)sender;
+            if (btn.IsChecked == true)
+            {
+                // Show Password
+                txtPassUnmask.Text = txtPass.Password;
+                txtPass.Visibility = Visibility.Collapsed;
+                txtPassUnmask.Visibility = Visibility.Visible;
+                txtPassUnmask.Focus();
+                if (txtPassUnmask.Text.Length > 0)
+                {
+                    txtPassUnmask.SelectionStart = txtPassUnmask.Text.Length;
+                }
+            }
+            else
+            {
+                // Hide Password
+                txtPass.Password = txtPassUnmask.Text;
+                txtPassUnmask.Visibility = Visibility.Collapsed;
+                txtPass.Visibility = Visibility.Visible;
+                txtPass.Focus();
             }
         }
 

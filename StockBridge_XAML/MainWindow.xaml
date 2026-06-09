@@ -167,7 +167,13 @@
                     <TextBox x:Name="txtUser" Style="{StaticResource ModernInput}"/>
 
                     <TextBlock Text="Password" FontWeight="SemiBold" Foreground="#475569" FontSize="13"/>
-                    <PasswordBox x:Name="txtPass" Style="{StaticResource ModernInput}"/>
+                    <Grid>
+                        <PasswordBox x:Name="txtPass" Style="{StaticResource ModernInput}"/>
+                        <TextBox x:Name="txtPassUnmask" Style="{StaticResource ModernInput}" Visibility="Collapsed"/>
+                        <ToggleButton x:Name="btnTogglePass" Content="👁" HorizontalAlignment="Right" VerticalAlignment="Center" 
+                                      Margin="0,0,15,8" Width="30" Height="30" Cursor="Hand" Background="Transparent" BorderThickness="0"
+                                      Click="BtnTogglePass_Click"/>
+                    </Grid>
 
                     <Button Content="SIGN IN" Style="{StaticResource LoginButton}" Click="BtnLogin_Click" Margin="0,10,0,0"/>
                     <Button Content="KELUAR APLIKASI" Style="{StaticResource SecondaryButton}" Click="BtnClose_Click" Margin="0,10,0,0"/>
