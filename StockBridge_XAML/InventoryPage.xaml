@@ -125,11 +125,15 @@
                     </DataGridTextColumn>
 
                     <!-- Right aligned numeric quantities -->
-                    <DataGridTemplateColumn Header="STOCK" Width="120">
+                    <DataGridTemplateColumn Header="STOCK" Width="130">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Border Background="{StaticResource SuccessLightBrush}" CornerRadius="12" Padding="12,5" HorizontalAlignment="Right" Margin="0,0,25,0">
-                                    <TextBlock Text="{Binding base_stock}" Foreground="{StaticResource SuccessTextBrush}" FontWeight="Bold"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding base_stock}" Foreground="{StaticResource SuccessTextBrush}" FontWeight="Bold"/>
+                                        <TextBlock Text=" " Foreground="{StaticResource SuccessTextBrush}"/>
+                                        <TextBlock Text="{Binding unit_name}" Foreground="{StaticResource SuccessTextBrush}" FontWeight="SemiBold"/>
+                                    </StackPanel>
                                 </Border>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
