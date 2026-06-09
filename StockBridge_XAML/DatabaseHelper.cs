@@ -6,67 +6,22 @@ namespace StockBridge_XAML
 {
     public static class DatabaseHelper
     {
-        public static string ConnectionString = GetConnectionString();
-
-        private static string GetConnectionString()
-        {
-            string defaultConn = "Server=localhost;Database=StockBridgeDB;Trusted_Connection=True;TrustServerCertificate=True;";
-            try
-            {
-                string configPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "db_connection.txt");
-                if (System.IO.File.Exists(configPath))
-                {
-                    string content = System.IO.File.ReadAllText(configPath).Trim();
-                    if (!string.IsNullOrEmpty(content))
-                    {
-                        return content;
-                    }
-                }
-            }
-            catch
-            {
-                // Fallback to default
-            }
-            return defaultConn;
-        }
+        public static string ConnectionString = "Server=(localdb)\\MSSQLLocalDB;Database=StockBridgeDB;Trusted_Connection=True;TrustServerCertificate=True;";
 
         public static void InitializeDatabase()
         {
-            bool isLocal = ConnectionString.ToLower().Contains("localhost") || 
-                           ConnectionString.ToLower().Contains("127.0.0.1") || 
-                           ConnectionString.ToLower().Contains("(local)");
+            const string masterConnString = "Server=(localdb)\\MSSQLLocalDB;Database=master;Trusted_Connection=True;TrustServerCertificate=True;";
 
             try
             {
-                if (isLocal)
+                // 1. Check if database exists, if not create it
+                using (var masterDb = new SqlConnection(masterConnString))
                 {
-                    // Derive master connection string from target connection string
-                    string masterConnString = ConnectionString;
-                    if (ConnectionString.Contains("Database=StockBridgeDB"))
+                    masterDb.Open();
+                    var dbId = masterDb.ExecuteScalar<int?>("SELECT database_id FROM sys.databases WHERE name = 'StockBridgeDB'");
+                    if (dbId == null)
                     {
-                        masterConnString = ConnectionString.Replace("Database=StockBridgeDB", "Database=master");
-                    }
-                    else if (ConnectionString.Contains("database=StockBridgeDB"))
-                    {
-                        masterConnString = ConnectionString.Replace("database=StockBridgeDB", "database=master");
-                    }
-                    else if (ConnectionString.Contains("Initial Catalog=StockBridgeDB"))
-                    {
-                        masterConnString = ConnectionString.Replace("Initial Catalog=StockBridgeDB", "Initial Catalog=master");
-                    }
-                    else if (ConnectionString.Contains("initial catalog=StockBridgeDB"))
-                    {
-                        masterConnString = ConnectionString.Replace("initial catalog=StockBridgeDB", "initial catalog=master");
-                    }
-
-                    using (var masterDb = new SqlConnection(masterConnString))
-                    {
-                        masterDb.Open();
-                        var dbId = masterDb.ExecuteScalar<int?>("SELECT database_id FROM sys.databases WHERE name = 'StockBridgeDB'");
-                        if (dbId == null)
-                        {
-                            masterDb.Execute("CREATE DATABASE StockBridgeDB");
-                        }
+                        masterDb.Execute("CREATE DATABASE StockBridgeDB");
                     }
                 }
 
