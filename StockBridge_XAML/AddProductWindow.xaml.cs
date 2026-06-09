@@ -23,9 +23,7 @@ namespace StockBridge_XAML
 
             // Register event handlers for live preview
             cbUnitName.SelectionChanged += (s, ev) => UpdateConversionPreview();
-            cbUnitName.KeyUp += (s, ev) => UpdateConversionPreview();
             cbPackName.SelectionChanged += (s, ev) => UpdateConversionPreview();
-            cbPackName.KeyUp += (s, ev) => UpdateConversionPreview();
             txtConvRate.TextChanged += (s, ev) => UpdateConversionPreview();
 
             // Initialize preview
@@ -36,8 +34,8 @@ namespace StockBridge_XAML
         {
             if (lblConversionPreview == null) return;
 
-            string unitName = cbUnitName.Text?.Trim();
-            string packName = cbPackName.Text?.Trim();
+            string unitName = cbUnitName.SelectedItem as string;
+            string packName = cbPackName.SelectedItem as string;
             string rateText = txtConvRate.Text?.Trim();
 
             if (string.IsNullOrEmpty(unitName)) unitName = "[Satuan]";
@@ -82,6 +80,8 @@ namespace StockBridge_XAML
             if (string.IsNullOrWhiteSpace(txtId.Text)) { MessageBox.Show("ID Barang wajib diisi!", "Validasi Gagal", MessageBoxButton.OK, MessageBoxImage.Warning); return; }
             if (string.IsNullOrWhiteSpace(txtName.Text)) { MessageBox.Show("Nama Produk wajib diisi!", "Validasi Gagal", MessageBoxButton.OK, MessageBoxImage.Warning); return; }
             if (cbCategory.SelectedValue == null) { MessageBox.Show("Pilih Kategori terlebih dahulu!", "Validasi Gagal", MessageBoxButton.OK, MessageBoxImage.Warning); return; }
+            if (cbUnitName.SelectedItem == null) { MessageBox.Show("Pilih Satuan Eceran (Unit) terlebih dahulu!", "Validasi Gagal", MessageBoxButton.OK, MessageBoxImage.Warning); return; }
+            if (cbPackName.SelectedItem == null) { MessageBox.Show("Pilih Satuan Kemasan (Pack) terlebih dahulu!", "Validasi Gagal", MessageBoxButton.OK, MessageBoxImage.Warning); return; }
 
             if (!int.TryParse(txtStock.Text, out int stockVal) || stockVal < 0)
             {
@@ -108,8 +108,8 @@ namespace StockBridge_XAML
                     txtName.Text.Trim(),
                     (int)cbCategory.SelectedValue,
                     stockVal,
-                    cbUnitName.Text,
-                    cbPackName.Text,
+                    cbUnitName.SelectedItem as string,
+                    cbPackName.SelectedItem as string,
                     convVal,
                     priceVal,
                     txtDescription.Text

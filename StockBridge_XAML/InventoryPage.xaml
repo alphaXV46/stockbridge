@@ -111,6 +111,19 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
 
+                    <!-- Right aligned price -->
+                    <DataGridTextColumn Header="PRICE" Binding="{Binding price, StringFormat='Rp \{0:N0\}'}" Width="120">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="TextAlignment" Value="Right"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="Margin" Value="0,0,25,0"/>
+                                <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+
                     <!-- Right aligned numeric quantities -->
                     <DataGridTemplateColumn Header="STOCK" Width="120">
                         <DataGridTemplateColumn.CellTemplate>

@@ -793,7 +793,7 @@ NuGet. 2026. ZXing.Net. Diakses dari https://www.nuget.org/packages/ZXing.Net
 Microsoft. 2025. Introduction to WPF (Windows Presentation Foundation). Microsoft Learn. Diakses dari https://learn.microsoft.com/en-us/dotnet/desktop/wpf/overview/
 
 Microsoft. 2025. Object-Oriented Programming (C#). Microsoft Learn. Diakses dari https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/tutorials/oop
-
+    
 Microsoft. 2026. SQL Server Express LocalDB. Microsoft Learn. Diakses dari https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/sql-server-express-localdb
 
 Rosa A.S. dan M. Shalahuddin. 2018. Rekayasa Perangkat Lunak Terstruktur dan Berorientasi Objek. Bandung: Informatika.
