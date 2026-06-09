@@ -119,9 +119,17 @@ namespace StockBridge_XAML
                     }
                 });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show("Jalankan Visual Studio sebagai Administrator!\n" + ex.Message);
+                MessageBox.Show(
+                    "Aplikasi mendeteksi bahwa hak akses Administrator belum aktif.\n\n" +
+                    "Harap jalankan Visual Studio (atau file .exe program) dengan cara:\n" +
+                    "Klik Kanan -> 'Run as Administrator'\n\n" +
+                    "Ini diperlukan agar fitur Sinkronisasi HP (QR/Barcode Scanner) dapat berjalan.",
+                    "Hak Akses Administrator Diperlukan",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning
+                );
             }
         }
 
