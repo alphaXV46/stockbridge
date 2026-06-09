@@ -41,8 +41,9 @@ namespace StockBridge_XAML
             {
                 using (var db = new SqlConnection(DatabaseHelper.ConnectionString))
                 {
+                    string hashedPassword = DatabaseHelper.HashPassword(password);
                     const string sql = "SELECT * FROM users WHERE username = @u AND password = @p";
-                    var userFound = db.QueryFirstOrDefault(sql, new { u = username, p = password });
+                    var userFound = db.QueryFirstOrDefault(sql, new { u = username, p = hashedPassword });
 
                     if (userFound != null)
                     {

@@ -69,9 +69,12 @@ namespace StockBridge_XAML
                     {
                         try
                         {
-                            db.Execute("UPDATE requests SET status = 'Approved' WHERE id = @id", new { id = selected.id });
+                            db.Execute("UPDATE requests SET status = 'Approved' WHERE id = @id", 
+                                       new { id = selected.id }, 
+                                       transaction: trans);
                             db.Execute("UPDATE products SET base_stock = base_stock - @qty WHERE product_name = @name",
-                                        new { qty = selected.qty_requested, name = selected.product_name });
+                                        new { qty = selected.qty_requested, name = selected.product_name }, 
+                                        transaction: trans);
                             trans.Commit();
                             MessageBox.Show("Permintaan berhasil disetujui!", "Sukses", MessageBoxButton.OK, MessageBoxImage.Information);
                         }

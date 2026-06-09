@@ -40,11 +40,19 @@ namespace StockBridge_XAML
                                 password NVARCHAR(100), 
                                 role NVARCHAR(50)
                             );
-                            INSERT INTO users (username, password, role) VALUES 
-                            ('admin', 'admin123', 'Admin'), 
-                            ('manager', 'manager123', 'Manager'), 
-                            ('staff', 'staff123', 'Staff');
+                        ");
 
+                        db.Execute(@"INSERT INTO users (username, password, role) VALUES 
+                            ('admin', @adminPass, 'Admin'), 
+                            ('manager', @managerPass, 'Manager'), 
+                            ('staff', @staffPass, 'Staff')",
+                            new {
+                                adminPass = HashPassword("admin123"),
+                                managerPass = HashPassword("manager123"),
+                                staffPass = HashPassword("staff123")
+                            });
+
+                        db.Execute(@"
                             CREATE TABLE categories (
                                 id INT IDENTITY(1,1) PRIMARY KEY, 
                                 category_name NVARCHAR(100)
@@ -89,6 +97,21 @@ namespace StockBridge_XAML
             catch (Exception ex)
             {
                 System.Windows.MessageBox.Show("Database initialization failed: " + ex.Message, "Database Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+            }
+        }
+
+        public static string HashPassword(string password)
+        {
+            if (string.IsNullOrEmpty(password)) return string.Empty;
+            using (var sha256 = System.Security.Cryptography.SHA256.Create())
+            {
+                byte[] bytes = sha256.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                var sb = new System.Text.StringBuilder();
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    sb.Append(bytes[i].ToString("x2"));
+                }
+                return sb.ToString();
             }
         }
     }

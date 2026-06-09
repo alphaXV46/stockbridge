@@ -47,12 +47,14 @@ namespace StockBridge_XAML
                         // Operasi Matematika SQL
                         string op = (type == "Masuk") ? "+" : "-";
                         db.Execute($"UPDATE products SET base_stock = base_stock {op} @diff WHERE id = @id",
-                                   new { diff = totalAffected, id = _product.id });
+                                   new { diff = totalAffected, id = _product.id },
+                                   transaction: trans);
 
                         // Catat Riwayat (Log)
                         db.Execute(@"INSERT INTO stock_logs (product_id, type, quantity, total_affected, created_at) 
                                      VALUES (@pid, @type, @qty, @total, GETDATE())",
-                                     new { pid = _product.id, type = type, qty = qtyInput, total = totalAffected });
+                                     new { pid = _product.id, type = type, qty = qtyInput, total = totalAffected },
+                                     transaction: trans);
 
                         trans.Commit();
                     }

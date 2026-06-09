@@ -49,11 +49,12 @@ namespace StockBridge_XAML
                 using (var db = new SqlConnection(DatabaseHelper.ConnectionString))
                 {
                     db.Open();
+                    string hashedPassword = DatabaseHelper.HashPassword(txtNewPass.Text);
                     const string sql = "INSERT INTO users (username, password, role) VALUES (@u, @p, @r)";
                     db.Execute(sql, new
                     {
                         u = txtNewUser.Text.Trim(),
-                        p = txtNewPass.Text,
+                        p = hashedPassword,
                         r = selectedRole
                     });
                 }

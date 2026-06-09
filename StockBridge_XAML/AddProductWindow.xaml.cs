@@ -66,8 +66,27 @@ namespace StockBridge_XAML
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtId.Text)) { MessageBox.Show("ID Barang wajib diisi!"); return; }
-            if (cbCategory.SelectedValue == null) { MessageBox.Show("Pilih Kategori terlebih dahulu!"); return; }
+            if (string.IsNullOrWhiteSpace(txtId.Text)) { MessageBox.Show("ID Barang wajib diisi!", "Validasi Gagal", MessageBoxButton.OK, MessageBoxImage.Warning); return; }
+            if (string.IsNullOrWhiteSpace(txtName.Text)) { MessageBox.Show("Nama Produk wajib diisi!", "Validasi Gagal", MessageBoxButton.OK, MessageBoxImage.Warning); return; }
+            if (cbCategory.SelectedValue == null) { MessageBox.Show("Pilih Kategori terlebih dahulu!", "Validasi Gagal", MessageBoxButton.OK, MessageBoxImage.Warning); return; }
+
+            if (!int.TryParse(txtStock.Text, out int stockVal) || stockVal < 0)
+            {
+                MessageBox.Show("Masukkan jumlah stok awal yang valid (angka bulat non-negatif).", "Validasi Gagal", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (!int.TryParse(txtConvRate.Text, out int convVal) || convVal <= 0)
+            {
+                MessageBox.Show("Masukkan rate konversi yang valid (angka bulat positif).", "Validasi Gagal", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (!double.TryParse(txtPrice.Text, out double priceVal) || priceVal < 0)
+            {
+                MessageBox.Show("Masukkan harga beli yang valid (angka non-negatif).", "Validasi Gagal", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
 
             try
             {
@@ -78,14 +97,14 @@ namespace StockBridge_XAML
 
                     db.Execute(sql, new
                     {
-                        id = txtId.Text,
-                        name = txtName.Text,
+                        id = txtId.Text.Trim(),
+                        name = txtName.Text.Trim(),
                         cat = cbCategory.SelectedValue,
-                        stock = int.Parse(txtStock.Text),
+                        stock = stockVal,
                         unit = cbUnitName.Text,
                         pack = cbPackName.Text,
-                        conv = int.Parse(txtConvRate.Text),
-                        price = double.Parse(txtPrice.Text),
+                        conv = convVal,
+                        price = priceVal,
                         desc = txtDescription.Text
                     });
                 }

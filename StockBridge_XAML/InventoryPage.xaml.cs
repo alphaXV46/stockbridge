@@ -52,8 +52,8 @@ namespace StockBridge_XAML
             Placeholder.Visibility = string.IsNullOrEmpty(keyword) ? Visibility.Visible : Visibility.Collapsed;
 
             var filtered = _fullProductList.Where(p =>
-                p.product_name.ToString().ToLower().Contains(keyword) ||
-                p.id.ToString().ToLower().Contains(keyword)
+                (p.product_name?.ToString() ?? "").ToLower().Contains(keyword) ||
+                (p.id?.ToString() ?? "").ToLower().Contains(keyword)
             ).ToList();
 
             dgProducts.ItemsSource = filtered;
