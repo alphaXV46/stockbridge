@@ -38,6 +38,7 @@ namespace StockBridge_XAML
                 _listener = new HttpListener();
                 _listener.Prefixes.Add("http://*:8080/");
                 _listener.Start();
+                ProductRepository.LogSystemEvent("Server Start");
 
                 Task.Run(() =>
                 {
@@ -142,7 +143,20 @@ namespace StockBridge_XAML
         private void MenuInventory_Click(object sender, RoutedEventArgs e) { DefaultContent.Visibility = Visibility.Collapsed; MainFrame.Navigate(new InventoryPage(_role)); }
         private void MenuRequest_Click(object sender, RoutedEventArgs e) { DefaultContent.Visibility = Visibility.Collapsed; MainFrame.Navigate(new RequestPage(_role)); }
         private void MenuLogs_Click(object sender, RoutedEventArgs e) { DefaultContent.Visibility = Visibility.Collapsed; MainFrame.Navigate(new LogsPage()); }
-        private void BtnLogout_Click(object sender, RoutedEventArgs e) { if (_listener != null)     _listener.Stop(); new MainWindow().Show(); this.Close(); }
+        private void BtnLogout_Click(object sender, RoutedEventArgs e) 
+        { 
+            if (_listener != null) 
+            {
+                try
+                {
+                    _listener.Stop();
+                    ProductRepository.LogSystemEvent("Server Stop");
+                }
+                catch { }
+            } 
+            new MainWindow().Show(); 
+            this.Close(); 
+        }
 
         private void BtnMinimize_Click(object sender, RoutedEventArgs e)
         {

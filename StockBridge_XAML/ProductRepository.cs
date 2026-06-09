@@ -90,5 +90,14 @@ namespace StockBridge_XAML
                 return db.Query("SELECT * FROM stock_logs ORDER BY created_at DESC").ToList();
             }
         }
+
+        public static void LogSystemEvent(string eventType)
+        {
+            using (var db = new SqlConnection(DatabaseHelper.ConnectionString))
+            {
+                db.Execute(@"INSERT INTO stock_logs (product_id, type, quantity, total_affected, created_at) 
+                             VALUES ('SYSTEM', @type, 0, 0, GETDATE())", new { type = eventType });
+            }
+        }
     }
 }

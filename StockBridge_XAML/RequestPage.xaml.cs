@@ -87,8 +87,11 @@ namespace StockBridge_XAML
 
         private void BtnNewRequest_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Navigasi ke Form Request baru...");
-            // Di sini kamu bisa arahkan ke NavigationService.Navigate(new NewRequestPage());
+            NewRequestWindow win = new NewRequestWindow { Owner = Window.GetWindow(this) };
+            if (win.ShowDialog() == true)
+            {
+                LoadRequests();
+            }
         }
     }
 }

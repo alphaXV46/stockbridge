@@ -49,5 +49,13 @@ namespace StockBridge_XAML
                 db.Execute("UPDATE requests SET status = 'Rejected' WHERE id = @id", new { id = requestId });
             }
         }
+
+        public static void InsertRequest(string productName, int qty)
+        {
+            using (var db = new SqlConnection(DatabaseHelper.ConnectionString))
+            {
+                db.Execute("INSERT INTO requests (product_name, qty_requested, status) VALUES (@name, @qty, 'Pending')", new { name = productName, qty = qty });
+            }
+        }
     }
 }
