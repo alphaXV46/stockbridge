@@ -75,6 +75,14 @@ namespace StockBridge_XAML
                                 created_at DATETIME DEFAULT GETDATE()
                             );
                             
+                            INSERT INTO products (id, product_name, category_id, base_stock, unit_name, pack_name, conversion_rate, price, description) VALUES
+                            ('PROD-001', 'Kipas Angin Dinding Cosmos', 1, 15, 'Pcs', 'Dus', 1, 250000.00, 'Kipas angin dinding untuk ruang rapat.'),
+                            ('PROD-002', 'AC Split Panasonic 1 PK', 1, 5, 'Pcs', 'Dus', 1, 3500000.00, 'Unit pendingin ruangan kantor utama.'),
+                            ('PROD-003', 'Laptop Lenovo ThinkPad L14', 2, 8, 'Pcs', 'Dus', 1, 12000000.00, 'Laptop operasional divisi IT.'),
+                            ('PROD-004', 'Monitor Dell 24 Inch IPS', 2, 12, 'Pcs', 'Dus', 1, 1850000.00, 'Monitor eksternal untuk staf desain.'),
+                            ('PROD-005', 'Kertas HVS PaperOne A4 80gr', 3, 150, 'Rim', 'Dus', 5, 45000.00, 'Kertas print dokumen ukuran A4.'),
+                            ('PROD-006', 'Pulpen Pilot Ballpoint Black', 3, 240, 'Pcs', 'Dus', 12, 3000.00, 'Alat tulis kantor tinta hitam.');
+
                             CREATE TABLE stock_logs (
                                 log_id INT IDENTITY(1,1) PRIMARY KEY, 
                                 product_id NVARCHAR(100), 
@@ -83,6 +91,14 @@ namespace StockBridge_XAML
                                 total_affected INT, 
                                 created_at DATETIME DEFAULT GETDATE()
                             );
+
+                            INSERT INTO stock_logs (product_id, type, quantity, total_affected) VALUES
+                            ('PROD-001', 'Masuk', 15, 15),
+                            ('PROD-002', 'Masuk', 5, 5),
+                            ('PROD-003', 'Masuk', 8, 8),
+                            ('PROD-004', 'Masuk', 12, 12),
+                            ('PROD-005', 'Masuk', 150, 150),
+                            ('PROD-006', 'Masuk', 240, 240);
                             
                             CREATE TABLE requests (
                                 id INT IDENTITY(1,1) PRIMARY KEY, 
@@ -90,6 +106,11 @@ namespace StockBridge_XAML
                                 qty_requested INT, 
                                 status NVARCHAR(50) DEFAULT 'Pending'
                             );
+
+                            INSERT INTO requests (product_name, qty_requested, status) VALUES
+                            ('Kertas HVS PaperOne A4 80gr', 10, 'Pending'),
+                            ('Pulpen Pilot Ballpoint Black', 24, 'Pending'),
+                            ('Laptop Lenovo ThinkPad L14', 1, 'Approved');
                         ");
                     }
 
