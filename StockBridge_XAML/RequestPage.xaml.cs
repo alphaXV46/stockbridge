@@ -41,6 +41,12 @@ namespace StockBridge_XAML
 
         private void BtnApprove_Click(object sender, RoutedEventArgs e)
         {
+            if (_role != "Manager" && _role != "Admin")
+            {
+                MessageBox.Show("Akses Ditolak! Anda tidak memiliki izin untuk menyetujui permintaan.", "Kesalahan Otorisasi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             var selected = (dynamic)dgRequests.SelectedItem;
             if (selected == null)
             {
@@ -74,6 +80,12 @@ namespace StockBridge_XAML
 
         private void BtnReject_Click(object sender, RoutedEventArgs e)
         {
+            if (_role != "Manager" && _role != "Admin")
+            {
+                MessageBox.Show("Akses Ditolak! Anda tidak memiliki izin untuk menolak permintaan.", "Kesalahan Otorisasi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             var selected = (dynamic)dgRequests.SelectedItem;
             if (selected == null) return;
 

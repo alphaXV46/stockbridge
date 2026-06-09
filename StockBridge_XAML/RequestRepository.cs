@@ -21,6 +21,17 @@ namespace StockBridge_XAML
             using (var db = new SqlConnection(DatabaseHelper.ConnectionString))
             {
                 db.Open();
+                var currentStock = db.QueryFirstOrDefault<int?>("SELECT base_stock FROM products WHERE product_name = @name", new { name = productName });
+                if (currentStock == null)
+                {
+                    throw new Exception("Barang tidak ditemukan!");
+                }
+
+                if (currentStock < qty)
+                {
+                    throw new InvalidOperationException($"Stok tidak mencukupi! Sisa stok: {currentStock}, yang diminta: {qty}");
+                }
+
                 using (var trans = db.BeginTransaction())
                 {
                     try
