@@ -1,0 +1,82 @@
+﻿<Window x:Class="StockBridge_XAML.AddProductWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="StockBridge" Height="663" Width="700" 
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        Background="#F8FAFC" WindowStyle="None" AllowsTransparency="True">
+
+    <Grid Margin="30,30,30,0" Height="775" VerticalAlignment="Top">
+        <Border Background="White" CornerRadius="20" BorderBrush="#E2E8F0" BorderThickness="1" Margin="0,0,0,176">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="20" ShadowDepth="5" Color="#CBD5E1" Opacity="0.3"/>
+            </Border.Effect>
+
+            <Grid Margin="30">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="TAMBAH PRODUK BARU" FontSize="22" FontWeight="Black" Foreground="#1E293B" Margin="0,0,0,20"/>
+
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,49,0,0" Grid.RowSpan="2" Height="495" VerticalAlignment="Top">
+                    <StackPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="KODE / BARCODE" FontWeight="Bold" Margin="0,0,0,5"/>
+                                <TextBox x:Name="txtId" Height="40" VerticalContentAlignment="Center" Padding="5,0"/>
+
+                                <TextBlock Text="NAMA PRODUK" FontWeight="Bold" Margin="0,15,0,5"/>
+                                <TextBox x:Name="txtName" Height="40" VerticalContentAlignment="Center" Padding="5,0"/>
+
+                                <TextBlock Text="HARGA BELI (RP)" FontWeight="Bold" Margin="0,15,0,5"/>
+                                <TextBox x:Name="txtPrice" Text="0" Height="40" VerticalContentAlignment="Center" Padding="5,0"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="KATEGORI" FontWeight="Bold" Margin="0,0,0,5"/>
+                                <ComboBox x:Name="cbCategory" Height="40" DisplayMemberPath="category_name" SelectedValuePath="id"/>
+
+                                <TextBlock Text="STOK AWAL" FontWeight="Bold" Margin="0,15,0,5"/>
+                                <TextBox x:Name="txtStock" Text="0" Height="40" VerticalContentAlignment="Center" Padding="5,0"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <TextBlock Text="DESKRIPSI" FontWeight="Bold" Margin="0,15,0,5"/>
+                        <TextBox x:Name="txtDescription" Height="80" TextWrapping="Wrap" AcceptsReturn="True" Padding="5"/>
+
+                        <TextBlock Text="KONVERSI SATUAN" FontWeight="Bold" Margin="0,20,0,10" Foreground="#3B82F6"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="80"/>
+                            </Grid.ColumnDefinitions>
+                            <ComboBox x:Name="cbUnitName" Grid.Column="0" Height="40" IsEditable="True">
+                                <ComboBoxItem Content="Pcs" IsSelected="True"/>
+                            </ComboBox>
+                            <ComboBox x:Name="cbPackName" Grid.Column="2" Height="40" IsEditable="True">
+                                <ComboBoxItem Content="Dus" IsSelected="True"/>
+                            </ComboBox>
+                            <TextBox x:Name="txtConvRate" Grid.Column="4" Text="1" Height="40" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                        </Grid>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+                    <Button Content="BATAL" Width="100" Height="45" Click="BtnCancel_Click" Margin="0,0,10,0" RenderTransformOrigin="0.513,-3.33"/>
+                    <Button Content="SIMPAN" Width="150" Height="45" Click="BtnSave_Click" Background="#3B82F6" Foreground="White" FontWeight="Bold"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

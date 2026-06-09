@@ -1,0 +1,35 @@
+﻿<Window x:Class="StockBridge_XAML.ConnectMobileWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="StockBridge Sync" Height="500" Width="400" 
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        Background="#F4F7FA">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="#1E293B">
+            <StackPanel Margin="20">
+                <TextBlock Text="STOCKBRIDGE" FontSize="14" FontWeight="Bold" Foreground="#3B82F6" HorizontalAlignment="Center"/>
+                <TextBlock Text="INTEGRASI MOBILE" FontSize="20" FontWeight="Black" Foreground="White" HorizontalAlignment="Center" Margin="0,5,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <Grid Grid.Row="1" Margin="30">
+            <Border Background="White" CornerRadius="15" BorderBrush="#E2E8F0" BorderThickness="1">
+                <StackPanel Margin="20">
+                    <Border BorderBrush="#F1F5F9" BorderThickness="2" CornerRadius="10" Background="#F8FAFC">
+                        <Image x:Name="imgQRCode" Width="200" Height="200" Margin="10" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+                    </Border>
+                    <TextBlock x:Name="lblIPAddress" Text="Mencari Server..." FontSize="13" FontWeight="Bold" Foreground="#1E40AF" HorizontalAlignment="Center" Margin="0,15,0,0"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <Button Grid.Row="2" x:Name="BtnClose" Content="TUTUP" Margin="30,0,30,30" Height="40" Background="#E2E8F0" Click="BtnClose_Click"/>
+    </Grid>
+</Window>
