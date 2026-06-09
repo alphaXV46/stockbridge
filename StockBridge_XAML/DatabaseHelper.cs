@@ -92,6 +92,25 @@ namespace StockBridge_XAML
                             );
                         ");
                     }
+
+                    // Check and create units table if it does not exist
+                    var unitsTableExists = db.ExecuteScalar<int?>("SELECT 1 FROM sys.tables WHERE name = 'units'");
+                    if (unitsTableExists == null)
+                    {
+                        db.Execute(@"
+                            CREATE TABLE units (
+                                id INT IDENTITY(1,1) PRIMARY KEY, 
+                                unit_code NVARCHAR(50) UNIQUE NOT NULL, 
+                                unit_name NVARCHAR(100) NOT NULL
+                            );
+                            INSERT INTO units (unit_code, unit_name) VALUES 
+                            ('Pcs', 'Pieces'), 
+                            ('Dus', 'Dus/Box'), 
+                            ('Kg', 'Kilogram'), 
+                            ('Meter', 'Meter'), 
+                            ('Rim', 'Rim');
+                        ");
+                    }
                 }
             }
             catch (Exception ex)

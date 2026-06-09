@@ -19,8 +19,33 @@ namespace StockBridge_XAML
         {
             InitializeComponent();
             LoadCategories();
+            LoadUnits();
+
+            // Register event handlers for live preview
+            cbUnitName.SelectionChanged += (s, ev) => UpdateConversionPreview();
+            cbUnitName.KeyUp += (s, ev) => UpdateConversionPreview();
+            cbPackName.SelectionChanged += (s, ev) => UpdateConversionPreview();
+            cbPackName.KeyUp += (s, ev) => UpdateConversionPreview();
+            txtConvRate.TextChanged += (s, ev) => UpdateConversionPreview();
+
+            // Initialize preview
+            UpdateConversionPreview();
         }
 
+        private void UpdateConversionPreview()
+        {
+            if (lblConversionPreview == null) return;
+
+            string unitName = cbUnitName.Text?.Trim();
+            string packName = cbPackName.Text?.Trim();
+            string rateText = txtConvRate.Text?.Trim();
+
+            if (string.IsNullOrEmpty(unitName)) unitName = "[Satuan]";
+            if (string.IsNullOrEmpty(packName)) packName = "[Kemasan]";
+            if (string.IsNullOrEmpty(rateText)) rateText = "1";
+
+            lblConversionPreview.Text = $"Hasil Konversi: 1 {packName} = {rateText} {unitName}";
+        }
 
         private void LoadCategories()
         {
@@ -32,6 +57,23 @@ namespace StockBridge_XAML
             catch (Exception ex)
             {
                 MessageBox.Show("Gagal memuat kategori: " + ex.Message);
+            }
+        }
+
+        private void LoadUnits()
+        {
+            try
+            {
+                var units = UnitRepository.GetAllUnits();
+                // Select only the string codes to bind as a raw string list
+                var unitCodes = units.Select(u => (string)u.unit_code).ToList();
+
+                cbUnitName.ItemsSource = unitCodes;
+                cbPackName.ItemsSource = unitCodes;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gagal memuat satuan: " + ex.Message);
             }
         }
 

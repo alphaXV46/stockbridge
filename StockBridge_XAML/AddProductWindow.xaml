@@ -61,14 +61,11 @@
                                 <ColumnDefinition Width="10"/>
                                 <ColumnDefinition Width="80"/>
                             </Grid.ColumnDefinitions>
-                            <ComboBox x:Name="cbUnitName" Grid.Column="0" Height="40" IsEditable="True">
-                                <ComboBoxItem Content="Pcs" IsSelected="True"/>
-                            </ComboBox>
-                            <ComboBox x:Name="cbPackName" Grid.Column="2" Height="40" IsEditable="True">
-                                <ComboBoxItem Content="Dus" IsSelected="True"/>
-                            </ComboBox>
+                            <ComboBox x:Name="cbUnitName" Grid.Column="0" Height="40" IsEditable="True"/>
+                            <ComboBox x:Name="cbPackName" Grid.Column="2" Height="40" IsEditable="True"/>
                             <TextBox x:Name="txtConvRate" Grid.Column="4" Text="1" Height="40" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                         </Grid>
+                        <TextBlock x:Name="lblConversionPreview" Text="Hasil Konversi: 1 [Kemasan] = 1 [Satuan]" Foreground="{StaticResource TextSecondaryBrush}" FontSize="12.5" Margin="0,10,0,0" FontStyle="Italic" FontWeight="Medium"/>
                     </StackPanel>
                 </ScrollViewer>
 

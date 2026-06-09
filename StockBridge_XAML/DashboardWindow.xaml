@@ -62,6 +62,7 @@
                     <Button x:Name="btnMenuLogs" Content="📊  Analytics &amp; Logs" Style="{StaticResource NavButtonStyle}" Click="MenuLogs_Click"/>
                     <Button x:Name="btnMenuRequest" Content="📨  Supply Requests" Style="{StaticResource NavButtonStyle}" Click="MenuRequest_Click"/>
                     <Button x:Name="btnMenuUsers" Content="👥  Team Management" Style="{StaticResource NavButtonStyle}" Click="MenuUsers_Click"/>
+                    <Button x:Name="btnMenuUom" Content="📐  Units of Measure" Style="{StaticResource NavButtonStyle}" Click="MenuUom_Click"/>
                 </StackPanel>
 
                 <Border Grid.Row="2" Background="#1E293B" CornerRadius="15" Margin="15,0,15,20" Padding="15">

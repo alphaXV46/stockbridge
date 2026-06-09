@@ -1,0 +1,136 @@
+<Page x:Class="StockBridge_XAML.UomPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Unit of Measurement | StockBridge"
+      Background="Transparent">
+
+    <Page.Resources>
+        <Style x:Key="InputLabelStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
+        </Style>
+    </Page.Resources>
+
+    <Grid Margin="35">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Page Header -->
+        <Grid Grid.Row="0" Margin="0,0,0,35">
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="Master Data Satuan" FontSize="30" FontWeight="Black" Foreground="{StaticResource DeepNavyBrush}"/>
+                <TextBlock Text="Kelola satuan terkecil dan satuan konversi persediaan barang gudang." Foreground="{StaticResource TextSecondaryBrush}" FontSize="14" Margin="0,4,0,0"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- Admin Action Form (Enforced by Admin Role Bindings) -->
+        <Border x:Name="panelAdminAction" Grid.Row="1" Background="White" CornerRadius="16" Padding="25" Margin="0,0,0,30" BorderBrush="{StaticResource BorderBrushBase}" BorderThickness="1">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="25" ShadowDepth="4" Color="{StaticResource ShadowColor}" Opacity="0.04"/>
+            </Border.Effect>
+
+            <StackPanel>
+                <TextBlock Text="TAMBAH MASTER SATUAN BARU" FontSize="12" FontWeight="Black" Foreground="{StaticResource BrandBlueBrush}" Margin="0,0,0,20"/>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Unit Code Input -->
+                    <StackPanel Grid.Column="0" Margin="0,0,15,0">
+                        <TextBlock Text="KODE SATUAN (E.g. Pcs, Dus, Kg)" Style="{StaticResource InputLabelStyle}"/>
+                        <TextBox x:Name="txtUnitCode" MaxLength="20"/>
+                    </StackPanel>
+
+                    <!-- Unit Name Input -->
+                    <StackPanel Grid.Column="1" Margin="0,0,15,0">
+                        <TextBlock Text="DESKRIPSI LENGKAP (E.g. Pieces, Box, Kilogram)" Style="{StaticResource InputLabelStyle}"/>
+                        <TextBox x:Name="txtUnitName" MaxLength="100"/>
+                    </StackPanel>
+
+                    <!-- Add Button -->
+                    <Button Grid.Column="2" Content="Tambah Satuan" Style="{StaticResource PrimaryButton}" Click="BtnAddUnit_Click" 
+                            Width="150" Height="40" Margin="0,19,0,0"/>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <!-- Units DataGrid & Deletion Bar -->
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- DataGrid Area -->
+            <Border Grid.Row="0" Background="White" CornerRadius="16" BorderBrush="{StaticResource BorderBrushBase}" BorderThickness="1" ClipToBounds="True">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="25" ShadowDepth="4" Color="{StaticResource ShadowColor}" Opacity="0.04"/>
+                </Border.Effect>
+                <DataGrid x:Name="dgUnits" 
+                          AutoGenerateColumns="False" 
+                          IsReadOnly="True"
+                          CanUserAddRows="False"
+                          Margin="15">
+                    <DataGrid.Columns>
+                        <!-- Right-aligned ID -->
+                        <DataGridTextColumn Header="UNIT ID" Binding="{Binding id}" Width="100">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Margin" Value="20,0"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="TextAlignment" Value="Right"/>
+                                    <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+                                    <Setter Property="FontFamily" Value="Consolas"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+
+                        <!-- Left-aligned Unit Code (e.g. Kg) -->
+                        <DataGridTextColumn Header="KODE SATUAN" Binding="{Binding unit_code}" Width="180">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Margin" Value="15,0"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                    <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+
+                        <!-- Left-aligned Full Name -->
+                        <DataGridTextColumn Header="NAMA SATUAN / KETERANGAN" Binding="{Binding unit_name}" Width="*">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Margin" Value="15,0"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Border>
+
+            <!-- Delete Bar (Visible to Admin Only) -->
+            <Border x:Name="panelDeleteAction" Grid.Row="1" Background="{StaticResource PrimaryBackgroundBrush}" BorderBrush="{StaticResource BorderBrushBase}" BorderThickness="1" CornerRadius="12" Margin="0,15,0,0" Padding="15">
+                <Grid>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Border Width="8" Height="8" Background="{StaticResource DangerBrush}" CornerRadius="4" Margin="0,0,10,0"/>
+                        <TextBlock Text="Pilih baris di atas untuk menghapus satuan master" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" FontSize="12"/>
+                    </StackPanel>
+
+                    <Button Content="Hapus Satuan Terpilih" Click="BtnDeleteUnit_Click" Style="{StaticResource DangerButton}" Height="36" Width="180" HorizontalAlignment="Right"/>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</Page>

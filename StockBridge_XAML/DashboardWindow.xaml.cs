@@ -26,7 +26,11 @@ namespace StockBridge_XAML
 
         private void ApplyAccessControl()
         {
-            if (_role != "Admin") { if (btnMenuUsers != null) btnMenuUsers.Visibility = Visibility.Collapsed; }
+            if (_role != "Admin") 
+            { 
+                if (btnMenuUsers != null) btnMenuUsers.Visibility = Visibility.Collapsed; 
+                if (btnMenuUom != null) btnMenuUom.Visibility = Visibility.Collapsed; 
+            }
             if (_role == "Staff") { if (btnMenuLogs != null) btnMenuLogs.Visibility = Visibility.Collapsed; }
             if (_role == "Manager") { if (btnConnectMobile != null) btnConnectMobile.Visibility = Visibility.Collapsed; }
         }
@@ -143,6 +147,7 @@ namespace StockBridge_XAML
         private void MenuInventory_Click(object sender, RoutedEventArgs e) { DefaultContent.Visibility = Visibility.Collapsed; MainFrame.Navigate(new InventoryPage(_role)); }
         private void MenuRequest_Click(object sender, RoutedEventArgs e) { DefaultContent.Visibility = Visibility.Collapsed; MainFrame.Navigate(new RequestPage(_role)); }
         private void MenuLogs_Click(object sender, RoutedEventArgs e) { DefaultContent.Visibility = Visibility.Collapsed; MainFrame.Navigate(new LogsPage()); }
+        private void MenuUom_Click(object sender, RoutedEventArgs e) { DefaultContent.Visibility = Visibility.Collapsed; MainFrame.Navigate(new UomPage(_role)); }
         private void BtnLogout_Click(object sender, RoutedEventArgs e) 
         { 
             if (_listener != null) 
