@@ -123,20 +123,17 @@ namespace StockBridge_XAML
         // ... (Fungsi OpenUpdateFromMobile dan lainnya tetap sama seperti sebelumnya) ...
         private void OpenUpdateFromMobile(string id)
         {
-            using (var db = new SqlConnection(DatabaseHelper.ConnectionString))
+            var product = ProductRepository.GetProductById(id);
+            if (product != null)
             {
-                var product = db.QueryFirstOrDefault("SELECT * FROM products WHERE id = @id", new { id = id });
-                if (product != null)
-                {
-                    UpdateStockWindow win = new UpdateStockWindow(product);
-                    win.Owner = this;
-                    win.ShowDialog();
-                    if (MainFrame.Content is InventoryPage page) { page.LoadData(); }
-                }
-                else
-                {
-                    MessageBox.Show("Barang tidak ditemukan di database: " + id, "Peringatan", MessageBoxButton.OK, MessageBoxImage.Warning);
-                }
+                UpdateStockWindow win = new UpdateStockWindow(product);
+                win.Owner = this;
+                win.ShowDialog();
+                if (MainFrame.Content is InventoryPage page) { page.LoadData(); }
+            }
+            else
+            {
+                MessageBox.Show("Barang tidak ditemukan di database: " + id, "Peringatan", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 

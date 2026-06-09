@@ -31,11 +31,8 @@ namespace StockBridge_XAML
         {
             try
             {
-                using (var db = new SqlConnection(DatabaseHelper.ConnectionString))
-                {
-                    _fullProductList = db.Query("SELECT * FROM products ORDER BY created_at DESC").ToList();
-                    dgProducts.ItemsSource = _fullProductList;
-                }
+                _fullProductList = ProductRepository.GetAllProducts();
+                dgProducts.ItemsSource = _fullProductList;
             }
             catch (Exception ex)
             {

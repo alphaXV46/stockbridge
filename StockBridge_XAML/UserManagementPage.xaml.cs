@@ -19,13 +19,8 @@ namespace StockBridge_XAML
         {
             try
             {
-                using (var db = new SqlConnection(DatabaseHelper.ConnectionString))
-                {
-                    db.Open();
-                    // Mengambil data user untuk ditampilkan di tabel
-                    var userList = db.Query("SELECT id, username, role FROM users").ToList();
-                    dgUsers.ItemsSource = userList;
-                }
+                var userList = UserRepository.GetAllUsers();
+                dgUsers.ItemsSource = userList;
             }
             catch (Exception ex)
             {
@@ -46,18 +41,7 @@ namespace StockBridge_XAML
                 // Ambil role saja (buang keterangan di dalam kurung)
                 string selectedRole = cbNewRole.Text.Split(' ')[0];
 
-                using (var db = new SqlConnection(DatabaseHelper.ConnectionString))
-                {
-                    db.Open();
-                    string hashedPassword = DatabaseHelper.HashPassword(txtNewPass.Text);
-                    const string sql = "INSERT INTO users (username, password, role) VALUES (@u, @p, @r)";
-                    db.Execute(sql, new
-                    {
-                        u = txtNewUser.Text.Trim(),
-                        p = hashedPassword,
-                        r = selectedRole
-                    });
-                }
+                UserRepository.InsertUser(txtNewUser.Text.Trim(), txtNewPass.Text, selectedRole);
 
                 MessageBox.Show("New team member added successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows;
 using System.Net;
 using System.Net.NetworkInformation;
@@ -20,38 +20,11 @@ namespace StockBridge_XAML
             GenerateConnectionQR();
         }
 
-        // Fungsi mendeteksi IP Wi-Fi asli yang memiliki Gateway
-        private string GetRealLocalIP()
-        {
-            try
-            {
-                foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
-                {
-                    if (ni.OperationalStatus == OperationalStatus.Up && ni.NetworkInterfaceType != NetworkInterfaceType.Loopback)
-                    {
-                        var props = ni.GetIPProperties();
-                        if (props.GatewayAddresses.FirstOrDefault() != null)
-                        {
-                            foreach (var ip in props.UnicastAddresses)
-                            {
-                                if (ip.Address.AddressFamily == AddressFamily.InterNetwork)
-                                {
-                                    return ip.Address.ToString();
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            catch { }
-            return "localhost";
-        }
-
         private void GenerateConnectionQR()
         {
             try
             {
-                string localIP = GetRealLocalIP();
+                string localIP = NetworkHelper.GetRealLocalIP();
                 string url = $"http://{localIP}:8080/";
 
                 // Pastikan di XAML kamu ada TextBlock dengan nama lblIPAddress

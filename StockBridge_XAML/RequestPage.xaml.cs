@@ -30,11 +30,8 @@ namespace StockBridge_XAML
         {
             try
             {
-                using (var db = new SqlConnection(DatabaseHelper.ConnectionString))
-                {
-                    var data = db.Query("SELECT * FROM requests ORDER BY id DESC").ToList();
-                    dgRequests.ItemsSource = data;
-                }
+                var data = RequestRepository.GetAllRequests();
+                dgRequests.ItemsSource = data;
             }
             catch (Exception ex)
             {
@@ -62,28 +59,14 @@ namespace StockBridge_XAML
 
             if (confirm == MessageBoxResult.Yes)
             {
-                using (var db = new SqlConnection(DatabaseHelper.ConnectionString))
+                try
                 {
-                    db.Open();
-                    using (var trans = db.BeginTransaction())
-                    {
-                        try
-                        {
-                            db.Execute("UPDATE requests SET status = 'Approved' WHERE id = @id", 
-                                       new { id = selected.id }, 
-                                       transaction: trans);
-                            db.Execute("UPDATE products SET base_stock = base_stock - @qty WHERE product_name = @name",
-                                        new { qty = selected.qty_requested, name = selected.product_name }, 
-                                        transaction: trans);
-                            trans.Commit();
-                            MessageBox.Show("Permintaan berhasil disetujui!", "Sukses", MessageBoxButton.OK, MessageBoxImage.Information);
-                        }
-                        catch (Exception ex)
-                        {
-                            trans.Rollback();
-                            MessageBox.Show("Gagal memproses stok: " + ex.Message);
-                        }
-                    }
+                    RequestRepository.ApproveRequest((int)selected.id, (int)selected.qty_requested, (string)selected.product_name);
+                    MessageBox.Show("Permintaan berhasil disetujui!", "Sukses", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Gagal memproses stok: " + ex.Message);
                 }
                 LoadRequests();
             }
@@ -97,10 +80,7 @@ namespace StockBridge_XAML
             var confirm = MessageBox.Show("Tolak permintaan stok ini?", "Konfirmasi", MessageBoxButton.YesNo, MessageBoxImage.Warning);
             if (confirm == MessageBoxResult.Yes)
             {
-                using (var db = new SqlConnection(DatabaseHelper.ConnectionString))
-                {
-                    db.Execute("UPDATE requests SET status = 'Rejected' WHERE id = @id", new { id = selected.id });
-                }
+                RequestRepository.RejectRequest((int)selected.id);
                 LoadRequests();
             }
         }

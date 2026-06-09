@@ -39,26 +39,7 @@ namespace StockBridge_XAML
                 int multiplier = (cbUnitType.SelectedIndex == 1) ? (int)_product.conversion_rate : 1;
                 int totalAffected = qtyInput * multiplier;
 
-                using (var db = new SqlConnection(DatabaseHelper.ConnectionString))
-                {
-                    db.Open();
-                    using (var trans = db.BeginTransaction())
-                    {
-                        // Operasi Matematika SQL
-                        string op = (type == "Masuk") ? "+" : "-";
-                        db.Execute($"UPDATE products SET base_stock = base_stock {op} @diff WHERE id = @id",
-                                   new { diff = totalAffected, id = _product.id },
-                                   transaction: trans);
-
-                        // Catat Riwayat (Log)
-                        db.Execute(@"INSERT INTO stock_logs (product_id, type, quantity, total_affected, created_at) 
-                                     VALUES (@pid, @type, @qty, @total, GETDATE())",
-                                     new { pid = _product.id, type = type, qty = qtyInput, total = totalAffected },
-                                     transaction: trans);
-
-                        trans.Commit();
-                    }
-                }
+                ProductRepository.AdjustStock((string)_product.id, type, qtyInput, totalAffected);
 
                 MessageBox.Show($"Berhasil memperbarui stok {totalAffected} unit!", "Berhasil", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.DialogResult = true;

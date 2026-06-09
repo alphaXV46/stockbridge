@@ -1,4 +1,4 @@
-﻿using System.Windows;
+using System.Windows;
 using System.Windows.Media.Imaging;
 using System.IO;
 using System.Drawing.Imaging;
@@ -20,39 +20,13 @@ namespace StockBridge_XAML
             lblProductName.Text = namaBarang;
             lblProductId.Text = "ID/Barcode: " + idBarang;
 
-            string localIP = GetRealLocalIP();
+            string localIP = NetworkHelper.GetRealLocalIP();
             string qrLink = $"http://{localIP}:8080/?id={idBarang}";
 
             imgQRCode.Source = GenerateImage(qrLink, BarcodeFormat.QR_CODE, 200, 200);
             imgBarcode.Source = GenerateImage(idBarang, BarcodeFormat.CODE_128, 250, 80);
         }
 
-        // PERBAIKAN: Sinkronisasi algoritma pencarian IP Wi-Fi asli
-        private string GetRealLocalIP()
-        {
-            try
-            {
-                foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
-                {
-                    if (ni.OperationalStatus == OperationalStatus.Up && ni.NetworkInterfaceType != NetworkInterfaceType.Loopback)
-                    {
-                        var props = ni.GetIPProperties();
-                        if (props.GatewayAddresses.FirstOrDefault() != null)
-                        {
-                            foreach (var ip in props.UnicastAddresses)
-                            {
-                                if (ip.Address.AddressFamily == AddressFamily.InterNetwork)
-                                {
-                                    return ip.Address.ToString();
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            catch { }
-            return "localhost";
-        }
 
         private BitmapImage GenerateImage(string content, BarcodeFormat format, int width, int height)
         {

@@ -39,23 +39,18 @@ namespace StockBridge_XAML
 
             try
             {
-                using (var db = new SqlConnection(DatabaseHelper.ConnectionString))
-                {
-                    string hashedPassword = DatabaseHelper.HashPassword(password);
-                    const string sql = "SELECT * FROM users WHERE username = @u AND password = @p";
-                    var userFound = db.QueryFirstOrDefault(sql, new { u = username, p = hashedPassword });
+                var userFound = UserRepository.Authenticate(username, password);
 
-                    if (userFound != null)
-                    {
-                        string role = userFound.role;
-                        DashboardWindow dashboard = new DashboardWindow(role);
-                        dashboard.Show();
-                        this.Close();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Invalid credentials. Please try again.", "Access Denied", MessageBoxButton.OK, MessageBoxImage.Stop);
-                    }
+                if (userFound != null)
+                {
+                    string role = userFound.role;
+                    DashboardWindow dashboard = new DashboardWindow(role);
+                    dashboard.Show();
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Invalid credentials. Please try again.", "Access Denied", MessageBoxButton.OK, MessageBoxImage.Stop);
                 }
             }
             catch (Exception ex)

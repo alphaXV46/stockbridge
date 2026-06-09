@@ -21,42 +21,13 @@ namespace StockBridge_XAML
             LoadCategories();
         }
 
-        // PERBAIKAN: Sinkronisasi algoritma pencarian IP Wi-Fi asli
-        private string GetRealLocalIP()
-        {
-            try
-            {
-                foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
-                {
-                    if (ni.OperationalStatus == OperationalStatus.Up && ni.NetworkInterfaceType != NetworkInterfaceType.Loopback)
-                    {
-                        var props = ni.GetIPProperties();
-                        if (props.GatewayAddresses.Any())
-                        {
-                            foreach (var ip in props.UnicastAddresses)
-                            {
-                                if (ip.Address.AddressFamily == AddressFamily.InterNetwork)
-                                {
-                                    return ip.Address.ToString();
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            catch { }
-            return "localhost";
-        }
 
         private void LoadCategories()
         {
             try
             {
-                using (var db = new SqlConnection(DatabaseHelper.ConnectionString))
-                {
-                    var categories = db.Query("SELECT * FROM categories").ToList();
-                    cbCategory.ItemsSource = categories;
-                }
+                var categories = ProductRepository.GetCategories();
+                cbCategory.ItemsSource = categories;
             }
             catch (Exception ex)
             {
@@ -90,26 +61,19 @@ namespace StockBridge_XAML
 
             try
             {
-                using (var db = new SqlConnection(DatabaseHelper.ConnectionString))
-                {
-                    const string sql = @"INSERT INTO products (id, product_name, category_id, base_stock, unit_name, pack_name, conversion_rate, price, description) 
-                                   VALUES (@id, @name, @cat, @stock, @unit, @pack, @conv, @price, @desc)";
+                ProductRepository.InsertProduct(
+                    txtId.Text.Trim(),
+                    txtName.Text.Trim(),
+                    (int)cbCategory.SelectedValue,
+                    stockVal,
+                    cbUnitName.Text,
+                    cbPackName.Text,
+                    convVal,
+                    priceVal,
+                    txtDescription.Text
+                );
 
-                    db.Execute(sql, new
-                    {
-                        id = txtId.Text.Trim(),
-                        name = txtName.Text.Trim(),
-                        cat = cbCategory.SelectedValue,
-                        stock = stockVal,
-                        unit = cbUnitName.Text,
-                        pack = cbPackName.Text,
-                        conv = convVal,
-                        price = priceVal,
-                        desc = txtDescription.Text
-                    });
-                }
-
-                string ip = GetRealLocalIP();
+                string ip = NetworkHelper.GetRealLocalIP();
                 string qrLink = $"http://{ip}:8080/?id={txtId.Text}";
 
                 GenerateFile(qrLink, txtId.Text, "QRCodes", BarcodeFormat.QR_CODE);

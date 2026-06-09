@@ -19,11 +19,8 @@ namespace StockBridge_XAML
         {
             try
             {
-                using (var db = new SqlConnection(DatabaseHelper.ConnectionString))
-                {
-                    var logs = db.Query("SELECT * FROM stock_logs ORDER BY created_at DESC").ToList();
-                    dgLogs.ItemsSource = logs;
-                }
+                var logs = ProductRepository.GetStockLogs();
+                dgLogs.ItemsSource = logs;
             }
             catch (Exception ex)
             {
