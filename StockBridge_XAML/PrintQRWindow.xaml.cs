@@ -20,10 +20,9 @@ namespace StockBridge_XAML
             lblProductName.Text = namaBarang;
             lblProductId.Text = "ID/Barcode: " + idBarang;
 
-            string localIP = NetworkHelper.GetRealLocalIP();
-            string qrLink = $"http://{localIP}:8080/?id={idBarang}";
-
-            imgQRCode.Source = GenerateImage(qrLink, BarcodeFormat.QR_CODE, 200, 200);
+            // Best Practice: QR Code dan Barcode pada label barang hanya memuat ID Barang saja (tidak memuat URL jaringan)
+            // agar label yang dicetak bersifat permanen dan tidak rusak saat IP jaringan atau URL Ngrok berubah.
+            imgQRCode.Source = GenerateImage(idBarang, BarcodeFormat.QR_CODE, 200, 200);
             imgBarcode.Source = GenerateImage(idBarang, BarcodeFormat.CODE_128, 250, 80);
         }
 

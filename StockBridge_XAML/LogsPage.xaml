@@ -94,16 +94,16 @@
             </Grid.ColumnDefinitions>
 
             <TextBox x:Name="txtSearchLogs" Grid.Column="0" MaxWidth="400" HorizontalAlignment="Left" Width="400"
-                      Style="{StaticResource ModernSearchBox}"/>
+                      Style="{StaticResource ModernSearchBox}" TextChanged="TxtSearchLogs_TextChanged"/>
 
-            <ComboBox Grid.Column="1" Margin="15,0" Width="180" Height="45" VerticalContentAlignment="Center" 
-                      Padding="10,0">
+            <ComboBox x:Name="cmbLogFilter" Grid.Column="1" Margin="15,0" Width="180" Height="45" VerticalContentAlignment="Center" 
+                      Padding="10,0" SelectionChanged="CmbLogFilter_SelectionChanged">
                 <ComboBoxItem IsSelected="True" Content="All Activities"/>
                 <ComboBoxItem Content="Stock In (Masuk)"/>
                 <ComboBoxItem Content="Stock Out (Keluar)"/>
             </ComboBox>
 
-            <Button Grid.Column="2" Content="Export CSV Report" Style="{StaticResource SecondaryButton}" Width="180"/>
+            <Button Grid.Column="2" Content="Export CSV Report" Style="{StaticResource SecondaryButton}" Width="180" Click="BtnExportCSV_Click"/>
         </Grid>
 
         <Border Grid.Row="2" Background="White" CornerRadius="20" BorderBrush="{StaticResource BorderBrushBase}" BorderThickness="1">
@@ -162,12 +162,12 @@
                                         <TextBlock x:Name="TypeText" Text="{Binding type}" FontSize="11" FontWeight="Bold"/>
                                     </Border>
                                     <DataTemplate.Triggers>
-                                        <DataTrigger Binding="{Binding type}" Value="IN">
+                                        <DataTrigger Binding="{Binding type}" Value="Masuk">
                                             <Setter TargetName="TypeBadge" Property="Background" Value="{StaticResource SuccessLightBrush}"/>
                                             <Setter TargetName="TypeText" Property="Foreground" Value="{StaticResource SuccessTextBrush}"/>
                                             <Setter TargetName="TypeText" Property="Text" Value="▲ STOCK IN"/>
                                         </DataTrigger>
-                                        <DataTrigger Binding="{Binding type}" Value="OUT">
+                                        <DataTrigger Binding="{Binding type}" Value="Keluar">
                                             <Setter TargetName="TypeBadge" Property="Background" Value="{StaticResource DangerLightBrush}"/>
                                             <Setter TargetName="TypeText" Property="Foreground" Value="{StaticResource DangerTextBrush}"/>
                                             <Setter TargetName="TypeText" Property="Text" Value="▼ STOCK OUT"/>
