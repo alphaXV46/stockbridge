@@ -126,7 +126,7 @@
                     <Button Content="Decline Request" Click="BtnReject_Click" Style="{StaticResource DeclineButtonStyle}" Width="140" Height="38" Margin="0,0,12,0"/>
                     <Button Content="Approve Supply" Click="BtnApprove_Click" Style="{StaticResource SuccessButton}" Width="140" Height="38">
                         <Button.Effect>
-                            <DropShadowEffect BlurRadius="12" ShadowDepth="2" Color="{StaticResource SuccessBrush}" Opacity="0.15"/>
+                            <DropShadowEffect BlurRadius="12" ShadowDepth="2" Color="#10B981" Opacity="0.15"/>
                         </Button.Effect>
                     </Button>
                 </StackPanel>
