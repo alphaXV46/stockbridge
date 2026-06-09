@@ -1,4 +1,4 @@
-﻿<Window x:Class="StockBridge_XAML.PrintQRWindow"
+<Window x:Class="StockBridge_XAML.PrintQRWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Label Generator | StockBridge" 
@@ -6,31 +6,6 @@
         WindowStartupLocation="CenterOwner" 
         ResizeMode="NoResize"
         Background="#F1F5F9">
-
-    <Window.Resources>
-        <Style x:Key="PrintButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="#10B981"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Height" Value="45"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="12">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#059669"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Window.Resources>
 
     <Grid Margin="25">
         <Grid.RowDefinitions>
@@ -40,25 +15,25 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Margin="0,0,0,20">
-            <TextBlock Text="Label Preview" FontSize="12" FontWeight="Bold" Foreground="#6366F1" HorizontalAlignment="Center"/>
-            <TextBlock x:Name="lblProductName" Text="Product Name" FontSize="22" FontWeight="Black" Foreground="#1E293B" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap"/>
-            <TextBlock x:Name="lblProductId" Text="ID: ---" FontSize="13" Foreground="#64748B" HorizontalAlignment="Center" Margin="0,5,0,0"/>
+            <TextBlock Text="Label Preview" FontSize="12" FontWeight="Bold" Foreground="{StaticResource BrandBlueBrush}" HorizontalAlignment="Center"/>
+            <TextBlock x:Name="lblProductName" Text="Product Name" FontSize="22" FontWeight="Black" Foreground="{StaticResource DeepNavyBrush}" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap"/>
+            <TextBlock x:Name="lblProductId" Text="ID: ---" FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" HorizontalAlignment="Center" Margin="0,5,0,0"/>
         </StackPanel>
 
-        <Border Grid.Row="1" Background="White" CornerRadius="16" BorderBrush="#E2E8F0" BorderThickness="1">
+        <Border Grid.Row="1" Background="White" CornerRadius="16" BorderBrush="{StaticResource BorderBrushBase}" BorderThickness="1">
             <Border.Effect>
-                <DropShadowEffect BlurRadius="25" ShadowDepth="5" Color="#000000" Opacity="0.08"/>
+                <DropShadowEffect BlurRadius="25" ShadowDepth="5" Color="{StaticResource ShadowColor}" Opacity="0.08"/>
             </Border.Effect>
 
             <StackPanel VerticalAlignment="Center" Margin="20">
-                <TextBlock Text="SMART LINK (MOBILE)" FontSize="10" FontWeight="Bold" Foreground="#94A3B8" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                <TextBlock Text="SMART LINK (MOBILE)" FontSize="10" FontWeight="Bold" Foreground="{StaticResource TextMutedBrush}" HorizontalAlignment="Center" Margin="0,0,0,10"/>
                 <Border BorderBrush="#F1F5F9" BorderThickness="2" Padding="10" Background="White" CornerRadius="12" HorizontalAlignment="Center">
                     <Image x:Name="imgQRCode" Width="160" Height="160" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
                 </Border>
 
                 <Separator Margin="0,25" Background="#F1F5F9"/>
 
-                <TextBlock Text="INVENTORY SCANNER (POS)" FontSize="10" FontWeight="Bold" Foreground="#94A3B8" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                <TextBlock Text="INVENTORY SCANNER (POS)" FontSize="10" FontWeight="Bold" Foreground="{StaticResource TextMutedBrush}" HorizontalAlignment="Center" Margin="0,0,0,10"/>
                 <Border BorderBrush="#F1F5F9" BorderThickness="2" Padding="15,10" Background="White" CornerRadius="8" HorizontalAlignment="Center">
                     <Image x:Name="imgBarcode" Width="220" Height="65" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
                 </Border>
@@ -66,8 +41,8 @@
         </Border>
 
         <StackPanel Grid.Row="2" Margin="0,25,0,0">
-            <Button Content="PRINT LABEL / SAVE PDF" Style="{StaticResource PrintButtonStyle}" Click="BtnPrint_Click"/>
-            <TextBlock Text="Pastikan printer label dalam keadaan online." FontSize="11" Foreground="#94A3B8" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+            <Button Content="PRINT LABEL / SAVE PDF" Style="{StaticResource SuccessButton}" Click="BtnPrint_Click"/>
+            <TextBlock Text="Pastikan printer label dalam keadaan online." FontSize="11" Foreground="{StaticResource TextMutedBrush}" HorizontalAlignment="Center" Margin="0,10,0,0"/>
         </StackPanel>
     </Grid>
 </Window>

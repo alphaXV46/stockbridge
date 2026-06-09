@@ -1,46 +1,16 @@
-﻿<Page x:Class="StockBridge_XAML.RequestPage"
+<Page x:Class="StockBridge_XAML.RequestPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       Title="Supply Request | StockBridge"
       Background="Transparent">
 
     <Page.Resources>
-        <Style x:Key="PrimaryActionBtn" TargetType="Button">
-            <Setter Property="Height" Value="42"/>
-            <Setter Property="Padding" Value="20,0"/>
-            <Setter Property="Background" Value="#3B82F6"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="8">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#2563EB"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="ModernRowStyle" TargetType="DataGridRow">
+        <!-- Red outline decline button -->
+        <Style x:Key="DeclineButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0,0,0,1"/>
-            <Setter Property="BorderBrush" Value="#F1F5F9"/>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#F8FAFC"/>
-                </Trigger>
-                <Trigger Property="IsSelected" Value="True">
-                    <Setter Property="Background" Value="#EFF6FF"/>
-                </Trigger>
-            </Style.Triggers>
+            <Setter Property="Foreground" Value="{StaticResource DangerBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource DangerBrush}"/>
+            <Setter Property="BorderThickness" Value="1.5"/>
         </Style>
     </Page.Resources>
 
@@ -53,19 +23,19 @@
 
         <Grid Grid.Row="0" Margin="0,0,0,25">
             <StackPanel VerticalAlignment="Center">
-                <TextBlock Text="Supply Management" FontSize="12" FontWeight="Bold" Foreground="#6366F1" Margin="0,0,0,4"/>
-                <TextBlock Text="Inventory Requests" FontSize="26" FontWeight="Black" Foreground="#1E293B"/>
-                <TextBlock Text="Review and process stock movement requests across branches." Foreground="#64748B" FontSize="13" Margin="0,4,0,0"/>
+                <TextBlock Text="Supply Management" FontSize="12" FontWeight="Bold" Foreground="{StaticResource BrandBlueBrush}" Margin="0,0,0,4"/>
+                <TextBlock Text="Inventory Requests" FontSize="26" FontWeight="Black" Foreground="{StaticResource DeepNavyBrush}"/>
+                <TextBlock Text="Review and process stock movement requests across branches." Foreground="{StaticResource TextSecondaryBrush}" FontSize="13" Margin="0,4,0,0"/>
             </StackPanel>
 
             <Button x:Name="btnNewRequest" Content="+ New Request" 
                     HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                    Style="{StaticResource PrimaryActionBtn}" Click="BtnNewRequest_Click"/>
+                    Style="{StaticResource PrimaryButton}" Click="BtnNewRequest_Click" Height="42" Padding="20,0"/>
         </Grid>
 
-        <Border Grid.Row="1" Background="White" CornerRadius="15" BorderBrush="#E2E8F0" BorderThickness="1">
+        <Border Grid.Row="1" Background="White" CornerRadius="15" BorderBrush="{StaticResource BorderBrushBase}" BorderThickness="1">
             <Border.Effect>
-                <DropShadowEffect BlurRadius="20" ShadowDepth="4" Color="#000000" Opacity="0.05"/>
+                <DropShadowEffect BlurRadius="20" ShadowDepth="4" Color="{StaticResource ShadowColor}" Opacity="0.04"/>
             </Border.Effect>
 
             <DataGrid x:Name="dgRequests" 
@@ -75,74 +45,66 @@
                       GridLinesVisibility="None"
                       BorderThickness="0"
                       Background="Transparent"
-                      RowStyle="{StaticResource ModernRowStyle}"
                       CanUserAddRows="False"
-                      Margin="10,10,0,10" HorizontalAlignment="Left" Width="444">
-
-                <DataGrid.ColumnHeaderStyle>
-                    <Style TargetType="DataGridColumnHeader">
-                        <Setter Property="Background" Value="Transparent"/>
-                        <Setter Property="Foreground" Value="#64748B"/>
-                        <Setter Property="Padding" Value="15,12"/>
-                        <Setter Property="FontWeight" Value="Bold"/>
-                        <Setter Property="FontSize" Value="11"/>
-                        <Setter Property="BorderThickness" Value="0,0,0,1"/>
-                        <Setter Property="BorderBrush" Value="#E2E8F0"/>
-                    </Style>
-                </DataGrid.ColumnHeaderStyle>
+                      Margin="15" HorizontalAlignment="Stretch">
 
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="REFERENCE" Binding="{Binding id}" Width="110">
+                    <!-- Left-aligned Reference Number (Consolas font) -->
+                    <DataGridTextColumn Header="REFERENCE" Binding="{Binding id}" Width="120">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock">
                                 <Setter Property="Margin" Value="15,0"/>
                                 <Setter Property="VerticalAlignment" Value="Center"/>
-                                <Setter Property="Foreground" Value="#94A3B8"/>
+                                <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
                                 <Setter Property="FontFamily" Value="Consolas"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
 
+                    <!-- Left-aligned textual column -->
                     <DataGridTextColumn Header="ITEM NAME" Binding="{Binding product_name}" Width="*">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock">
                                 <Setter Property="Margin" Value="15,0"/>
                                 <Setter Property="VerticalAlignment" Value="Center"/>
                                 <Setter Property="FontWeight" Value="SemiBold"/>
-                                <Setter Property="Foreground" Value="#1E293B"/>
+                                <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
 
-                    <DataGridTextColumn Header="QUANTITY" Binding="{Binding qty_requested}" Width="100">
+                    <!-- Right-aligned numeric quantity -->
+                    <DataGridTextColumn Header="QUANTITY" Binding="{Binding qty_requested}" Width="120">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock">
-                                <Setter Property="Margin" Value="15,0"/>
+                                <Setter Property="Margin" Value="0,0,25,0"/>
                                 <Setter Property="VerticalAlignment" Value="Center"/>
                                 <Setter Property="FontWeight" Value="Bold"/>
-                                <Setter Property="TextAlignment" Value="Center"/>
+                                <Setter Property="TextAlignment" Value="Right"/>
+                                <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
 
+                    <!-- Center-aligned status badges -->
                     <DataGridTemplateColumn Header="STATUS" Width="140">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Border x:Name="StatusBadge" CornerRadius="6" Padding="8,4" HorizontalAlignment="Left" Margin="15,0">
-                                    <TextBlock x:Name="StatusText" Text="{Binding status}" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                <Border x:Name="StatusBadge" CornerRadius="8" Padding="12,5" HorizontalAlignment="Center" Margin="10,0">
+                                    <TextBlock x:Name="StatusText" Text="{Binding status}" FontSize="11" FontWeight="Bold" HorizontalAlignment="Center"/>
                                 </Border>
                                 <DataTemplate.Triggers>
                                     <DataTrigger Binding="{Binding status}" Value="Pending">
-                                        <Setter TargetName="StatusBadge" Property="Background" Value="#FFF7ED"/>
-                                        <Setter TargetName="StatusText" Property="Foreground" Value="#C2410C"/>
+                                        <Setter TargetName="StatusBadge" Property="Background" Value="{StaticResource WarningLightBrush}"/>
+                                        <Setter TargetName="StatusText" Property="Foreground" Value="{StaticResource WarningTextBrush}"/>
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding status}" Value="Approved">
-                                        <Setter TargetName="StatusBadge" Property="Background" Value="#F0FDF4"/>
-                                        <Setter TargetName="StatusText" Property="Foreground" Value="#15803D"/>
+                                        <Setter TargetName="StatusBadge" Property="Background" Value="{StaticResource SuccessLightBrush}"/>
+                                        <Setter TargetName="StatusText" Property="Foreground" Value="{StaticResource SuccessTextBrush}"/>
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding status}" Value="Rejected">
-                                        <Setter TargetName="StatusBadge" Property="Background" Value="#FEF2F2"/>
-                                        <Setter TargetName="StatusText" Property="Foreground" Value="#B91C1C"/>
+                                        <Setter TargetName="StatusBadge" Property="Background" Value="{StaticResource DangerLightBrush}"/>
+                                        <Setter TargetName="StatusText" Property="Foreground" Value="{StaticResource DangerTextBrush}"/>
                                     </DataTrigger>
                                 </DataTemplate.Triggers>
                             </DataTemplate>
@@ -152,41 +114,19 @@
             </DataGrid>
         </Border>
 
-        <Border x:Name="panelManagerAction" Grid.Row="2" Background="#F8FAFC" CornerRadius="12" Margin="0,20,0,0" Padding="15">
+        <!-- Modern bottom action bar for Manager reviews -->
+        <Border x:Name="panelManagerAction" Grid.Row="2" Background="{StaticResource PrimaryBackgroundBrush}" BorderBrush="{StaticResource BorderBrushBase}" BorderThickness="1" CornerRadius="12" Margin="0,20,0,0" Padding="20,15">
             <Grid>
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Border Width="8" Height="8" Background="#3B82F6" CornerRadius="4" Margin="0,0,10,0"/>
-                    <TextBlock Text="Manager Review Mode" FontWeight="Bold" Foreground="#475569" FontSize="12" Width="130"/>
+                    <Border Width="10" Height="10" Background="{StaticResource BrandBlueBrush}" CornerRadius="5" Margin="0,0,12,0"/>
+                    <TextBlock Text="Manager Review Mode" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" FontSize="13"/>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button Content="Decline Request" Click="BtnReject_Click" Width="134" Height="38"
-                            Background="Transparent" Foreground="#EF4444" BorderBrush="#FCA5A5" BorderThickness="1"
-                            FontWeight="SemiBold" Margin="0,0,10,0" Cursor="Hand">
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="8"/>
-                            </Style>
-                        </Button.Resources>
-                    </Button>
-                    <Button Content="Approve Supply" Click="BtnApprove_Click" Width="134" Height="38"
-                            Background="#10B981" Foreground="White" BorderThickness="0"
-                            FontWeight="Bold" Cursor="Hand" RenderTransformOrigin="0.5,0.5">
-                        <Button.Resources>
-                            <Style TargetType="{x:Type Border}">
-                                <Setter Property="CornerRadius" Value="8"/>
-                            </Style>
-                        </Button.Resources>
-                        <Button.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform AngleY="0.13"/>
-                                <RotateTransform/>
-                                <TranslateTransform Y="-0.221"/>
-                            </TransformGroup>
-                        </Button.RenderTransform>
+                    <Button Content="Decline Request" Click="BtnReject_Click" Style="{StaticResource DeclineButtonStyle}" Width="140" Height="38" Margin="0,0,12,0"/>
+                    <Button Content="Approve Supply" Click="BtnApprove_Click" Style="{StaticResource SuccessButton}" Width="140" Height="38">
                         <Button.Effect>
-                            <DropShadowEffect BlurRadius="12" ShadowDepth="2" Color="#10B981" Opacity="0.2"/>
+                            <DropShadowEffect BlurRadius="12" ShadowDepth="2" Color="{StaticResource SuccessBrush}" Opacity="0.15"/>
                         </Button.Effect>
                     </Button>
                 </StackPanel>

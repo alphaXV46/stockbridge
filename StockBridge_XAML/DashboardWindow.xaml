@@ -32,58 +32,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
-        <Style x:Key="WindowControlStyle" TargetType="Button">
-            <Setter Property="Width" Value="36"/>
-            <Setter Property="Height" Value="36"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="#64748B"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Margin" Value="2,0"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="6">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#E2E8F0"/>
-                                <Setter Property="Foreground" Value="#0F172A"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="WindowCloseControlStyle" TargetType="Button">
-            <Setter Property="Width" Value="36"/>
-            <Setter Property="Height" Value="36"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="#64748B"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Margin" Value="2,0"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="6">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#EF4444"/>
-                                <Setter Property="Foreground" Value="White"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
     </Window.Resources>
 
     <Grid>
@@ -119,13 +67,7 @@
                 <Border Grid.Row="2" Background="#1E293B" CornerRadius="15" Margin="15,0,15,20" Padding="15">
                     <StackPanel>
                         <TextBlock x:Name="lblRoleDisplay" Text="ADMINISTRATOR" Foreground="#3B82F6" FontSize="10" FontWeight="Black" Margin="0,0,0,5"/>
-                        <Button x:Name="btnLogout" Content="Sign Out" Background="#EF4444" Foreground="White" FontWeight="Bold" Height="35" BorderThickness="0" Click="BtnLogout_Click">
-                            <Button.Resources>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="8"/>
-                                </Style>
-                            </Button.Resources>
-                        </Button>
+                        <Button x:Name="btnLogout" Content="Sign Out" Style="{StaticResource DangerButton}" Height="35" Click="BtnLogout_Click"/>
                     </StackPanel>
                 </Border>
             </Grid>
@@ -144,13 +86,7 @@
                         <TextBlock Text="Enterprise System" FontSize="12" Foreground="#94A3B8"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                        <Button x:Name="btnConnectMobile" Content="📱 Sync Mobile" Padding="15,8" Background="#F8FAFC" BorderBrush="#CBD5E1" Click="BtnConnectMobile_Click" Margin="0,0,15,0">
-                            <Button.Resources>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="8"/>
-                                </Style>
-                            </Button.Resources>
-                        </Button>
+                        <Button x:Name="btnConnectMobile" Content="📱 Sync Mobile" Style="{StaticResource SecondaryButton}" Height="36" Padding="15,0" Click="BtnConnectMobile_Click" Margin="0,0,15,0"/>
                         <Button x:Name="btnMinimize" Content="─" Style="{StaticResource WindowControlStyle}" Click="BtnMinimize_Click"/>
                         <Button x:Name="btnToggleFullscreen" Content="▢" Style="{StaticResource WindowControlStyle}" Click="BtnToggleFullscreen_Click"/>
                         <Button x:Name="btnClose" Content="✕" Style="{StaticResource WindowCloseControlStyle}" Click="BtnClose_Click"/>
